@@ -1,23 +1,13 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
+import connectDB from "./db/connect.js";
 import cookieParser from 'cookie-parser';
 import cors from "cors";
 
 dotenv.config();
-
-mongoose
-  .connect(process.env.MONGO)
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-// const __dirname = path.resolve();
+const PORT = 3000;
 
 const app = express();
 
@@ -31,9 +21,6 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
-});
 
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
@@ -47,3 +34,15 @@ app.use((err, req, res, next) => {
     statusCode,
   });
 });
+
+
+const startServer = async () => {
+  try {
+    connectDB(process.env.MONGODB_URL);
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+startServer();
