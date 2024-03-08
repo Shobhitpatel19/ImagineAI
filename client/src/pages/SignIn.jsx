@@ -48,6 +48,7 @@ export default function SignIn() {
           type='email'
           placeholder='Email'
           id='email'
+          autocomplete="off"
           className='bg-slate-100 p-3 rounded-lg'
           onChange={handleChange}
         />
@@ -67,7 +68,7 @@ export default function SignIn() {
         <OAuth />
       </form>
       <div className='flex gap-2 mt-5'>
-        <p>Dont Have an account?</p>
+        <p>Don't Have an account?</p>
         <Link to='/sign-up'>
           <span className='text-blue-500'>Sign up</span>
         </Link>
